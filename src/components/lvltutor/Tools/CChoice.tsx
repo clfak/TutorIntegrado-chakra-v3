@@ -124,16 +124,16 @@ function handleAnswer(
 
 // 1. Create a component that consumes the `useRadio` hook
 function RadioCard(props) {
-  const { getInputProps, getCheckboxProps } = useRadio(props);
+  const { getInputProps, getRadioProps } = useRadio(props);
 
   const input = getInputProps();
-  const checkbox = getCheckboxProps();
+  const radio = getRadioProps();
 
   return (
     <Box as="label">
       <input {...input} />
       <Box
-        {...checkbox}
+        {...radio}
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"

@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 
 import type { wpExercise, GraphMeta, MathComponentMeta, SelectionMeta, textAlign } from "./types";
-import { components } from "./types.d";
+import { components } from "./types";
 import dynamic from "next/dynamic";
 import "katex/dist/katex.min.css";
 import Latex from "react-latex-next";

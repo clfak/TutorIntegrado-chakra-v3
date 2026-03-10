@@ -1,4 +1,4 @@
-import { AlertStatus, facePoint, Hint, selectPointerMeta } from "../types.d";
+import { AlertStatus, facePoint, type Hint, type selectPointerMeta } from "../types";
 import { useEffect, useState } from "react";
 import { Box, ButtonGroup, Flex, useMediaQuery } from "@chakra-ui/react";
 import ResAlert from "../Alert/responseAlert";

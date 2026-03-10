@@ -8,7 +8,7 @@ import { useAlert } from "../hooks/useAlert";
 import { useHint } from "../hooks/useHint";
 import { useStore } from "../store/store";
 import type { Hint, SelectionMeta } from "../types";
-import { AlertStatus } from "../types.d";
+import { AlertStatus } from "../types";
 import { useAction } from "../../../utils/action";
 
 interface Props {

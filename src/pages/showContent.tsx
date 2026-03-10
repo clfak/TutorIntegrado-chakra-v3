@@ -7,7 +7,6 @@ import type Plain from "../components/lvltutor/Plain";
 import type { ExType } from "../components/lvltutor/Tools/ExcerciseType";
 import { Text, Box } from "@chakra-ui/react";
 import Info from "../utils/Info";
-import DynamicTutorLogic from "../components/LogicTutor/DynamicTutorLogic";
 import type { ExLog } from "../components/LogicTutor/Tools/ExcerciseType2";
 const DynamicTutorFac = dynamic<{ exercise?: Object; topicId?: string }>(() =>
   import("../components/tutorFactorizacion/TutorFac").then(mod => mod.TutorFac),
@@ -29,10 +28,22 @@ const DynamicTutorWP = dynamic<{ exercise?: Object; topicId?: string }>(() =>
   import("../components/tutorWordProblems/TutorWordProblem").then(mod => mod.TutorWordProblem),
 );
 
-export default withAuth(function ShowContent() {
+const DynamicTutorLogic = dynamic<{ exc: ExLog; topicId: string }>(
+  () => import("../components/LogicTutor/DynamicTutorLogic"),
+  {
+    ssr: false,
+  },
+);
+
+const ShowContentPage = withAuth(function ShowContent() {
+  if (typeof window === "undefined") {
+    return <Text>Cargando contenido...</Text>;
+  }
+
   const content = sessionState.currentContent;
   const topic = sessionState.topic;
   const code = sessionState.currentContent.code;
+  const contentType = content?.json?.type;
 
   //console.log("Content --------->", content);
   //console.log("topic --------->", topic);
@@ -55,25 +66,24 @@ export default withAuth(function ShowContent() {
       </Box>
 
       <div>
-        {content && ["ftc5s", "fc1s", "fdc2s", "fdsc2", "fcc3s"].includes(content?.json?.type) ? (
+        {content && ["ftc5s", "fc1s", "fdc2s", "fdsc2", "fcc3s"].includes(contentType) ? (
           <DynamicTutorFac key="1" exercise={content.json} topicId={topic}></DynamicTutorFac>
-        ) : content && content?.json?.type == "lvltutor" && !!content.json ? (
+        ) : contentType == "lvltutor" && !!content?.json ? (
           <DynamicPlain key="2" steps={content.json as ExType} topicId={topic}></DynamicPlain>
-        ) : content && ["ecc5s", "secl5s", "ecl2s", "mo"].includes(content?.json?.type) ? (
+        ) : ["ecc5s", "secl5s", "ecl2s", "mo"].includes(contentType ?? "") ? (
           <DynamicTutorEcu key="3" exercise={content.json} topicId={topic}></DynamicTutorEcu>
-        ) : content &&
-          [
+        ) : [
             "areaperimetro1",
             "areaperimetro2",
             "pitagoras1",
             "pitagoras2",
             "thales1",
             "thales2",
-          ].includes(content?.json?.type) ? (
+          ].includes(contentType ?? "") ? (
           <DynamicTutorGeom key="4" exercise={content.json} topicId={topic}></DynamicTutorGeom>
-        ) : content && content?.json.type == "wordProblem" ? (
+        ) : contentType == "wordProblem" ? (
           <DynamicTutorWP key="5" exercise={content.json} topicId={topic}></DynamicTutorWP>
-        ) : content && content?.json.type == "lvltutor2" ? (
+        ) : contentType == "lvltutor2" ? (
           <DynamicTutorLogic key="6" exc={content.json as ExLog} topicId={topic} />
         ) : (
           <Text>No existe el contenido que desea cargar</Text>
@@ -82,3 +92,13 @@ export default withAuth(function ShowContent() {
     </>
   );
 });
+
+export default dynamic(() => Promise.resolve(ShowContentPage), {
+  ssr: false,
+});
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
+}

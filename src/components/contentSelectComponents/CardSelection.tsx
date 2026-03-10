@@ -135,13 +135,11 @@ export const CardSelection = ({
           </Text>
         )}
 
-        <NextLink href={"showContent"} passHref>
-          <LinkOverlay>
-            <Text paddingTop={"2"} fontSize={"sm"}>
-              {json.text}
-            </Text>
-          </LinkOverlay>
-        </NextLink>
+        <LinkOverlay as={NextLink} href="/showContent">
+          <Text paddingTop={"2"} fontSize={"sm"}>
+            {json.text}
+          </Text>
+        </LinkOverlay>
         <Center fontSize={"1xl"} paddingBottom={"3"} paddingTop={"1"}>
           {json ? (
             json.type == "lvltutor2" ? (

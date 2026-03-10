@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Flex, Text, Center, SimpleGrid } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { formatDate } from "../components/challenge/tools";
 import { useAuth, withAuth } from "../components/Auth";
@@ -238,8 +239,9 @@ function getUniqueKcs(kcsByContentByTopics: any[]): string[] {
 
 //------------------------------------
 
-export default withAuth(function ChallengesStart() {
+const ChallengesStartPage = withAuth(function ChallengesStart() {
   const router = useRouter();
+  const isClient = typeof window !== "undefined";
 
   const { user, project } = useAuth();
   const userId = user?.id;
@@ -272,29 +274,30 @@ export default withAuth(function ChallengesStart() {
 
   //--------------------------------
 
-  const { data: dataChallenge, isLoading: isChallengeLoading } = useGQLQuery(queryGetChallenge, {
-    challengeId: challengeId,
-  });
+  const { data: dataChallenge, isLoading: isChallengeLoading } = useGQLQuery(
+    queryGetChallenge,
+    {
+      challengeId: challengeId,
+    },
+    {
+      enabled: isClient && !!challengeId,
+    },
+  );
 
   const {
     data: dataGroupUsersWithModelStates,
     isLoading: isGroupUsersWithModelStatesLoading,
     refetch: refetchModelStates,
-  } = useGQLQuery(
-    queryGroupUsersWithModelStates,
-    /*{
-        refetchOnWindowFocus: false,
-        //refetchOnMount: false,
-        refetchOnReconnect: false,
-      }*/
-  );
+  } = useGQLQuery(queryGroupUsersWithModelStates, undefined, {
+    enabled: isClient,
+  });
 
   const { data: dataKcsByTopics, isLoading: isKcsByTopicsLoading } = useGQLQuery(
     queryGetKcsByTopics,
     {
       topicsCodes: topicsCode,
     },
-    { enabled: !!topicsCode },
+    { enabled: isClient && topicsCode.length > 0 },
   );
 
   const [userByJsonById, setUserByJsonById] = useState<Record<string, SkillModel>>({});
@@ -393,15 +396,21 @@ export default withAuth(function ChallengesStart() {
     data: actionsData,
     isLoading: actionsLoading,
     // error: actionsError,
-  } = useGQLQuery(queryGetActions, {
-    input: {
-      endDate: "2025-12-31T12:00:00.000Z", //getTodayDate(),//"2025-03-16T20:20:55.000Z", // la fecha de hoy
-      projectId: 4,
-      startDate: "2025-03-01T00:00:00.000Z", //, // El 1 de Marzo del 2025
-      verbNames: ["challengeContentCompleted"],
+  } = useGQLQuery(
+    queryGetActions,
+    {
+      input: {
+        endDate: "2025-12-31T12:00:00.000Z", //getTodayDate(),//"2025-03-16T20:20:55.000Z", // la fecha de hoy
+        projectId: 4,
+        startDate: "2025-03-01T00:00:00.000Z", //, // El 1 de Marzo del 2025
+        verbNames: ["challengeContentCompleted"],
+      },
+      pagination: { last: 1 },
     },
-    pagination: { last: 1 },
-  });
+    {
+      enabled: isClient && !!challengeId,
+    },
+  );
 
   function findObjectById(data, id) {
     // Verifica si el contenido existe y es un array
@@ -499,7 +508,7 @@ export default withAuth(function ChallengesStart() {
       refetchOnWindowFocus: false,
       //refetchOnMount: false,
       refetchOnReconnect: false,
-      enabled: !!showContent,
+      enabled: isClient && !!showContent && !!project?.id && !!user?.id && topics.length > 0,
     },
   );
 
@@ -533,7 +542,7 @@ export default withAuth(function ChallengesStart() {
       refetchOnWindowFocus: false,
       //refetchOnMount: false,
       refetchOnReconnect: false,
-      //enabled: !isChallengeLoading && !!contents,
+      enabled: isClient && contents.length > 0,
     },
   );
 
@@ -902,6 +911,10 @@ de montar el componente por primera vez reiniciando el contador a 0*/
     refreshDataManualLoading ||
     refreshProgressManualLoading;
 
+  if (!isClient) {
+    return <LoadingOverlay />;
+  }
+
   if (isAnythingLoading) {
     return <LoadingOverlay />;
   }
@@ -1078,6 +1091,16 @@ de montar el componente por primera vez reiniciando el contador a 0*/
     </Box>
   );
 });
+
+export default dynamic(() => Promise.resolve(ChallengesStartPage), {
+  ssr: false,
+});
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
+}
 //};
 
 //export default ChallengeStart;

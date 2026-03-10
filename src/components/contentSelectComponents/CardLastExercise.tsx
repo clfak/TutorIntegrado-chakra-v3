@@ -42,6 +42,22 @@ export const CardLastExercise = ({ lastExercise }: { lastExercise: string }) => 
       refetchOnReconnect: false,
     },
   );
+  const contentJson = data?.contentByCode?.json as
+    | {
+        type?: string;
+        title?: string;
+        text?: string;
+        eqc?: string;
+        initialExpression?: string;
+        steps?: Array<{ expression?: string }>;
+      }
+    | undefined;
+
+  const isEquationTopic =
+    contentJson?.type == parameters.lastExercise.topic1.type ||
+    contentJson?.type == parameters.lastExercise.topic2.type ||
+    contentJson?.type == parameters.lastExercise.topic3.type;
+
   return (
     <>
       <Center>
@@ -65,42 +81,35 @@ export const CardLastExercise = ({ lastExercise }: { lastExercise: string }) => 
                   <LinkOverlay fontSize=".8em">
                     <span>Ejercicio de </span>{" "}
                     <span style={{ fontWeight: "bold" }}>
-                      {data?.contentByCode?.json?.type == parameters.lastExercise.topic1.type
+                      {contentJson?.type == parameters.lastExercise.topic1.type
                         ? parameters.lastExercise.topic1.name
-                        : data?.contentByCode?.json?.type == parameters.lastExercise.topic2.type
+                        : contentJson?.type == parameters.lastExercise.topic2.type
                         ? parameters.lastExercise.topic2.name
-                        : data?.contentByCode.json?.type == parameters.lastExercise.topic3.type
+                        : contentJson?.type == parameters.lastExercise.topic3.type
                         ? parameters.lastExercise.topic3.name
-                        : data?.contentByCode?.json?.title}
+                        : contentJson?.title}
                     </span>
                   </LinkOverlay>
 
                   <br />
                   <Text paddingTop={"2"} fontSize={"sm"}>
-                    {data?.contentByCode?.json?.type == parameters.lastExercise.topic1.type ||
-                    data?.contentByCode?.json?.type == parameters.lastExercise.topic2.type ||
-                    data?.contentByCode?.json?.type == parameters.lastExercise.topic3.type ? (
-                      <TeX>{data?.contentByCode?.json?.title}</TeX>
+                    {isEquationTopic ? (
+                      <TeX>{contentJson?.title ?? ""}</TeX>
                     ) : (
-                      data?.contentByCode?.json?.text
+                      contentJson?.text ?? ""
                     )}
                   </Text>
                   <Center fontSize={"1xl"} paddingBottom={"3"} paddingTop={"1"}>
-                    {data?.contentByCode?.json?.type == parameters.lastExercise.topic1.type ||
-                    data?.contentByCode?.json?.type == parameters.lastExercise.topic2.type ||
-                    data?.contentByCode?.json?.type == parameters.lastExercise.topic3.type ? (
+                    {isEquationTopic ? (
+                      <MathComponent tex={String.raw`${contentJson?.eqc ?? ""}`} display={false} />
+                    ) : contentJson?.initialExpression ? (
                       <MathComponent
-                        tex={String.raw`${data?.contentByCode?.json?.eqc}`}
-                        display={false}
-                      />
-                    ) : data?.contentByCode?.json.initialExpression ? (
-                      <MathComponent
-                        tex={String.raw`${data?.contentByCode?.json.initialExpression}`}
+                        tex={String.raw`${contentJson.initialExpression}`}
                         display={false}
                       />
                     ) : (
                       <MathComponent
-                        tex={String.raw`${data?.contentByCode?.json.steps[0].expression}`}
+                        tex={String.raw`${contentJson?.steps?.[0]?.expression ?? ""}`}
                         display={false}
                       />
                     )}

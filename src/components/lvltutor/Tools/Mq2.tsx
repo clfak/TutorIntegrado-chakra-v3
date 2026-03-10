@@ -1,6 +1,6 @@
 import { Alert, AlertIcon, Button, Stack, Box, HStack, VStack } from "@chakra-ui/react";
 import { useState, memo, useEffect, useRef } from "react";
-import { addStyles, EditableMathField, MathField } from "react-mathquill";
+import type { MathField } from "react-mathquill";
 //se importa el componente hint desarrollado por Miguel Nahuelpan
 import Hint from "../../Hint";
 import MQPostfixSolver from "../../../utils/MQPostfixSolver";
@@ -12,9 +12,8 @@ import type { Step, answer, value } from "./ExcerciseType";
 import { useSnapshot } from "valtio";
 import MQProxy from "./MQProxy";
 import MQPostfixstrict from "../../../utils/MQPostfixstrict";
+import MQEditableMathField from "../../../utils/MQEditableMathField";
 import MQStaticMathField from "../../../utils/MQStaticMathField";
-
-addStyles();
 
 const Enabledhint = ({
   disablehint,
@@ -416,7 +415,7 @@ const Mq2 = ({
             >
               L
             </Button>
-            <EditableMathField
+            <MQEditableMathField
               key={"EMF" + entero}
               latex={latex}
               style={EMFStyle}
@@ -431,7 +430,7 @@ const Mq2 = ({
                 setLatex(() => mathField.latex());
                 refMQElement(mathField);
               }}
-            ></EditableMathField>
+            />
             <Button
               colorScheme="teal"
               onMouseDown={e => {

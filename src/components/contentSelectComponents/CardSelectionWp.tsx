@@ -101,13 +101,11 @@ export const CardSelectionwp = ({
           </Text>
         }
 
-        <NextLink href={"showContent"} passHref>
-          <LinkOverlay>
-            <Text paddingTop={"2"} fontSize={"sm"}>
-              {ej.presentation.description}
-            </Text>
-          </LinkOverlay>
-        </NextLink>
+        <LinkOverlay as={NextLink} href="/showContent">
+          <Text paddingTop={"2"} fontSize={"sm"}>
+            {ej.presentation.description}
+          </Text>
+        </LinkOverlay>
       </LinkBox>
     </>
   );

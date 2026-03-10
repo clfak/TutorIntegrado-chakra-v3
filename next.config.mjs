@@ -2,7 +2,9 @@
  * @type {import("next").NextConfig}
  */
 const config = {
-  swcMinify: false,
+  experimental: {
+    webpackBuildWorker: false,
+  },
 };
 
 export default config;

@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { MathfieldElement } from "mathlive";
 import ResAlert from "../Alert/responseAlert";
 import { useAlert } from "../hooks/useAlert";
-import { AlertStatus } from "../types.d";
+import { AlertStatus } from "../types";
 import HintButton from "../Hint/hint";
 import { useHint } from "../hooks/useHint";
 import { ComputeEngine } from "@cortex-js/compute-engine";

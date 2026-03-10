@@ -6,7 +6,7 @@ import { useAlert } from "../hooks/useAlert";
 import { useBoard } from "../hooks/useBoard";
 import { useHint } from "../hooks/useHint";
 import { useStore } from "../store/store";
-import { AlertStatus, Hint, linearFitMeta, slider } from "../types.d";
+import { AlertStatus, type Hint, type linearFitMeta, type slider } from "../types";
 import { useAction } from "../../../utils/action";
 
 interface Props {

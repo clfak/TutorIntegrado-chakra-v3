@@ -1,20 +1,24 @@
-import { Box, RadioProps, useRadio, useRadioGroup, VStack, Text } from "@chakra-ui/react";
+import { Box, UseRadioProps, useRadio, useRadioGroup, VStack, Text } from "@chakra-ui/react";
 import { Answers } from "./Answers";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useSnapshot } from "valtio";
 
 // 1. Create a component that consumes the `useRadio` hook
-function RadioCard(props: RadioProps) {
-  const { getInputProps, getCheckboxProps } = useRadio(props);
+type RadioCardProps = UseRadioProps & {
+  children: ReactNode;
+};
+
+function RadioCard(props: RadioCardProps) {
+  const { getInputProps, getRadioProps } = useRadio(props);
 
   const input = getInputProps();
-  const checkbox = getCheckboxProps();
+  const radio = getRadioProps();
 
   return (
     <Box as="label" w={"90%"}>
       <input {...input} />
       <Box
-        {...checkbox}
+        {...radio}
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"

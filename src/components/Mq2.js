@@ -9,16 +9,14 @@ import {
   StyledStepper,
 } from "@chakra-ui/react";
 import { useState, useCallback, memo, useEffect, useRef } from "react";
-import { addStyles, EditableMathField } from "react-mathquill";
 import { MathComponent } from "./MathJax";
+import MQEditableMathField from "../utils/MQEditableMathField";
 //se importa el componente hint desarrollado por Miguel Nahuelpan
 import Hint from "./tutorGeometria/tools/Hint";
 import MQPostfixSolver from "../utils/MQPostfixSolver";
 import MQPostfixparser from "../components/tutorGeometria/tools/MQPostfixparser";
 //reporte de acciones
 //import { useAction } from "../../../utils/action";
-
-addStyles();
 
 const Mq2 = ({ step, setStepValid, stepValid, content, topicId }) => {
   //const action = useAction();
@@ -250,7 +248,7 @@ const Mq2 = ({ step, setStepValid, stepValid, content, topicId }) => {
             >
               L
             </Button>
-            <EditableMathField
+            <MQEditableMathField
               key={"EMF" + entero}
               latex={latex}
               style={EMFStyle}
@@ -266,7 +264,7 @@ const Mq2 = ({ step, setStepValid, stepValid, content, topicId }) => {
                 refMQElement(mathField);
               }}
               disabled={true}
-            ></EditableMathField>
+            />
             <Button
               colorScheme="teal"
               onMouseDown={e => {

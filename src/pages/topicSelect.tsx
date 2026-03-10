@@ -148,9 +148,7 @@ export default withAuth(function TopicSelect() {
                     //nextContentPath={nextContentPath}
                     KCs={selectedExcercise.kcXtopic[ejercicio.id] || []} // pasar KCs correspondientes
                   />
-                ) : (
-                  console.log("Tópico sin ejercicios")
-                ),
+                ) : null,
               )}
           </SimpleGrid>
         </Box>

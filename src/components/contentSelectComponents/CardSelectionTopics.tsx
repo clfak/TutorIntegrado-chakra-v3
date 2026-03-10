@@ -1,13 +1,4 @@
-import {
-  LinkBox,
-  Heading,
-  Center,
-  HStack,
-  LinkOverlay,
-  Text,
-  Image,
-  Stack,
-} from "@chakra-ui/react";
+import { LinkBox, Heading, Center, HStack, LinkOverlay, Image, Stack } from "@chakra-ui/react";
 import NextLink from "next/link";
 import PBLoad from "../progressbar/pbload";
 import { progresscalc } from "../progressbar/progresscalc";
@@ -67,7 +58,7 @@ export const CardSelectionTopic = ({
   KCs: { code: string }[];
   index: number;
 }) => {
-  const topicPath = `contentSelect?topic=${id}&registerTopic=${id}`;
+  const topicPath = `/contentSelect?topic=${id}&registerTopic=${id}`;
   const action = useAction();
 
   interface pbi {
@@ -157,7 +148,9 @@ export const CardSelectionTopic = ({
       <Center>
         <HStack>
           <Heading size="md" my="2" textAlign="center" minH="70px">
-            {label}
+            <LinkOverlay as={NextLink} href={topicPath}>
+              {label}
+            </LinkOverlay>
           </Heading>
         </HStack>
       </Center>
@@ -219,11 +212,6 @@ export const CardSelectionTopic = ({
           ))}
         </VStack>*/}
 
-      <NextLink href={topicPath} passHref>
-        <LinkOverlay>
-          <Text paddingTop={"2"} fontSize={"sm"}></Text>
-        </LinkOverlay>
-      </NextLink>
       <PBLoad
         uservalues={pbValues.uservalues}
         groupvalues={pbValues.groupvalues}

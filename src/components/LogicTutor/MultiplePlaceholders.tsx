@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button, Stack, Alert, AlertIcon, Center, Box, Text, Image } from "@chakra-ui/react";
 import { MathfieldElement } from "mathlive";
 import dynamic from "next/dynamic";
@@ -32,6 +32,12 @@ const MultiplePlaceholders = ({
   const [hints, setHints] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [_, setLastHint] = useState(0);
+
+  useEffect(() => {
+    if (isCorrectValue) {
+      setCompleted(true);
+    }
+  }, [isCorrectValue, setCompleted]);
 
   const evaluar = () => {
     setError(false); // Resetear el estado de error antes de la evaluación
@@ -160,7 +166,6 @@ const MultiplePlaceholders = ({
         <Alert status="success">
           <AlertIcon />
           {exc.steps[nStep].correctMsg}
-          {setCompleted(true)}
         </Alert>
       )}
     </>

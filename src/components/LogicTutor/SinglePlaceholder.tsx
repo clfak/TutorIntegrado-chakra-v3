@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button, Stack, Alert, AlertIcon, Center, Text, Image, Box } from "@chakra-ui/react";
 import type { ExLog } from "./Tools/ExcerciseType2";
 import Hint from "../../components/Hint";
@@ -34,6 +33,13 @@ const SinglePlaceholder = ({
   const [attempts, setAttempts] = useState(0);
   const action = useAction();
   const [_, setLastHint] = useState(false);
+
+  useEffect(() => {
+    if (isCorrectValue) {
+      setCompleted(true);
+    }
+  }, [isCorrectValue, setCompleted]);
+
   //console.log(exc.steps[nStep].hints)
   interface values {
     values: Array<value>;
@@ -153,7 +159,6 @@ const SinglePlaceholder = ({
         <Alert status="success">
           <AlertIcon />
           {exc.steps[nStep].correctMsg}
-          {setCompleted(true)}
         </Alert>
       )}
     </>

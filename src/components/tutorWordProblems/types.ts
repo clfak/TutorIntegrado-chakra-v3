@@ -59,6 +59,7 @@ export interface selectionPointHint {
   point1: number[];
   point2: number[];
 }
+
 export interface linearFitHint {}
 
 export interface Table {
@@ -76,12 +77,14 @@ export interface Header {
 export interface Row {
   data: string[] | number[];
 }
+
 export type textAlign = "left" | "right" | "center" | "justify" | "end" | "start";
 
 export interface ComponentToAnswer {
   nameComponent: string;
   meta: SelectionMeta | MathComponentMeta | GraphMeta;
 }
+
 export enum components {
   MLC = "mathComponent",
   SLC = "selectionComponent",
@@ -92,29 +95,31 @@ export interface SelectionMeta {
   answers: SelectionAnswer[];
   idCorrectAnswers: number;
 }
-interface SelectionAnswer {
+
+export interface SelectionAnswer {
   id: number;
   value: string;
 }
+
 export interface MathComponentMeta {
-  //id: number
   readonly?: boolean;
   expression: string;
   answers: MathCompAnswer[];
   idCorrectAnswers: number[];
 }
 
-interface MathCompAnswer {
+export interface MathCompAnswer {
   id: number;
   placeholderId: string;
   value: string;
 }
-interface GraphMeta {
+
+export interface GraphMeta {
   component: graphComponents;
   metaComponent?: selectPointerMeta | linearFitMeta;
 }
 
-interface linearFitMeta {
+export interface linearFitMeta {
   data: point[];
   graphSettings: settings;
   linearFunction: {
@@ -133,7 +138,7 @@ interface linearFitMeta {
   };
 }
 
-interface slider {
+export interface slider {
   startPoint: number[];
   endPoint: number[];
   min: number;
@@ -144,18 +149,20 @@ interface slider {
   name: string;
 }
 
-interface settings {
+export interface settings {
   originAxis?: boolean;
   bounding?: bounding;
   maxBounding?: bounding;
   newAxis?: axisSettings;
   activeZoom: boolean;
 }
-interface axisSettings {
+
+export interface axisSettings {
   xAxis: Axis;
   yAxis: Axis;
 }
-interface Axis {
+
+export interface Axis {
   point1: number[];
   point2: number[];
   tiksDistance: number;
@@ -165,30 +172,35 @@ interface Axis {
   labelOffset: number[];
   labelFontSize: number;
 }
-interface bounding {
+
+export interface bounding {
   X1: number;
   Y1: number;
   X2: number;
   Y2: number;
 }
-interface selectPointerMeta {
+
+export interface selectPointerMeta {
   data: point[];
   correctPoint: number[];
   graphSettings: settings;
 }
-interface point {
+
+export interface point {
   coord: number[];
   name?: string;
   color?: string;
   isStatic?: boolean;
   face?: facePoint;
 }
+
 export enum facePoint {
   cross = "cross",
   circle = "circle",
   square = "square",
   plus = "plus",
 }
+
 export enum graphComponents {
   selectPoint = "selectPoint",
   linearFit = "linearFit",

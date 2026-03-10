@@ -1,7 +1,7 @@
 import { useAuth0, User as Auth0User } from "@auth0/auth0-react";
 import { Spinner, useLatestRef } from "@chakra-ui/react";
 import Router from "next/router";
-import { FC, memo, useEffect } from "react";
+import { FC, memo, useEffect, type ReactElement } from "react";
 import { useGQLQuery } from "rq-gql";
 import { proxy, useSnapshot } from "valtio";
 import { CurrentUserQuery, gql } from "../graphql";
@@ -124,10 +124,7 @@ const OnStart = memo(function OnStart() {
 export const useAuth = () => useSnapshot(AuthState);
 
 export function withAuth<Props extends Record<string, unknown>>(Cmp: FC<Props>) {
-  const WithAuth: {
-    (props: Props): JSX.Element;
-    displayName: string;
-  } = function WithAuth(props: Props) {
+  function WithAuth(props: Props): ReactElement {
     const { isLoading, user } = useAuth();
 
     if (isLoading) return <Spinner />;
@@ -137,7 +134,7 @@ export function withAuth<Props extends Record<string, unknown>>(Cmp: FC<Props>) 
     typeof window !== "undefined" && Router.replace("/");
 
     return <Spinner />;
-  };
+  }
 
   WithAuth.displayName = Cmp.name;
 
