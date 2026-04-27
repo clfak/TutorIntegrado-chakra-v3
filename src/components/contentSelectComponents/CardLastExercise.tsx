@@ -54,6 +54,20 @@ export const CardLastExercise = ({ lastExercise }: { lastExercise: string }) => 
       ? String(exerciseJson?.eqc || "")
       : String(exerciseJson?.initialExpression || exerciseJson?.steps?.[0]?.expression || "");
   const shouldStackMath = exerciseExpression.length > 40;
+  const mathDisplayCss = {
+    "& mjx-container": {
+      maxWidth: "100% !important",
+      overflow: "visible !important",
+      display: shouldStackMath ? "block !important" : "inline-block !important",
+      margin: "0 auto !important",
+      textAlign: "center !important",
+    },
+    "& mjx-container > svg": {
+      maxWidth: "100% !important",
+      height: "auto !important",
+      display: "inline-block !important",
+    },
+  };
 
   return (
     <>
@@ -105,24 +119,7 @@ export const CardLastExercise = ({ lastExercise }: { lastExercise: string }) => 
                     {data?.contentByCode?.json?.type == parameters.lastExercise.topic1.type ||
                     data?.contentByCode?.json?.type == parameters.lastExercise.topic2.type ||
                     data?.contentByCode?.json?.type == parameters.lastExercise.topic3.type ? (
-                      <Box
-                        w="full"
-                        px={{ base: 1, md: 2 }}
-                        css={{
-                          "& mjx-container": {
-                            maxWidth: "100% !important",
-                            overflow: "visible !important",
-                            display: shouldStackMath
-                              ? "block !important"
-                              : "inline-block !important",
-                            margin: "0 auto !important",
-                          },
-                          "& svg": {
-                            maxWidth: "100% !important",
-                            height: "auto !important",
-                          },
-                        }}
-                      >
+                      <Box w="full" px={{ base: 1, md: 2 }} textAlign="center" css={mathDisplayCss}>
                         <MathComponent
                           tex={String.raw`${data?.contentByCode?.json?.eqc}`}
                           display={shouldStackMath}
@@ -134,24 +131,7 @@ export const CardLastExercise = ({ lastExercise }: { lastExercise: string }) => 
                         />
                       </Box>
                     ) : data?.contentByCode?.json.initialExpression ? (
-                      <Box
-                        w="full"
-                        px={{ base: 1, md: 2 }}
-                        css={{
-                          "& mjx-container": {
-                            maxWidth: "100% !important",
-                            overflow: "visible !important",
-                            display: shouldStackMath
-                              ? "block !important"
-                              : "inline-block !important",
-                            margin: "0 auto !important",
-                          },
-                          "& svg": {
-                            maxWidth: "100% !important",
-                            height: "auto !important",
-                          },
-                        }}
-                      >
+                      <Box w="full" px={{ base: 1, md: 2 }} textAlign="center" css={mathDisplayCss}>
                         <MathComponent
                           tex={String.raw`${data?.contentByCode?.json.initialExpression}`}
                           display={shouldStackMath}
@@ -163,24 +143,7 @@ export const CardLastExercise = ({ lastExercise }: { lastExercise: string }) => 
                         />
                       </Box>
                     ) : (
-                      <Box
-                        w="full"
-                        px={{ base: 1, md: 2 }}
-                        css={{
-                          "& mjx-container": {
-                            maxWidth: "100% !important",
-                            overflow: "visible !important",
-                            display: shouldStackMath
-                              ? "block !important"
-                              : "inline-block !important",
-                            margin: "0 auto !important",
-                          },
-                          "& svg": {
-                            maxWidth: "100% !important",
-                            height: "auto !important",
-                          },
-                        }}
-                      >
+                      <Box w="full" px={{ base: 1, md: 2 }} textAlign="center" css={mathDisplayCss}>
                         <MathComponent
                           tex={String.raw`${data?.contentByCode?.json.steps[0].expression}`}
                           display={shouldStackMath}
