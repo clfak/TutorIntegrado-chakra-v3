@@ -19,6 +19,7 @@ import "mathquill/build/mathquill.css";
 import "katex/dist/katex.min.css";
 import "mathlive/static.css";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 export default function App({ Component, pageProps }: AppProps) {
   const isMobile = false;
   return (
@@ -49,6 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
         </CombinedRQGQLProvider>
       </Auth0Provider>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }
